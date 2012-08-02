@@ -28,4 +28,4 @@ Installing
 
 
 Links:
-[1][http://getcomposer.org/download/]
+[1]: http://getcomposer.org/download/
