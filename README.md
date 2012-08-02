@@ -27,5 +27,4 @@ Installing
 * Run `php composer.phar update` to download all dependencies
 
 
-Links:
 [1]: http://getcomposer.org/download/
