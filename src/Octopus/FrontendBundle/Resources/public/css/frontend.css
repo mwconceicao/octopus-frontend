@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+
+body
+{
+    padding-top: 60px;
+}
+
+footer
+{
+	height: 20px;
+	position: relative;
+	clear: both;
+	padding: 10px 0px;
+	border-top: #022738 dashed 3px;
+	background-color: #11445c;
+	color: #fefefe;
+}
+
+address {
+	font-style: italic;
+}

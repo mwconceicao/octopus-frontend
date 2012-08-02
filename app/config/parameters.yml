@@ -1,0 +1,13 @@
+parameters:
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: null
+    database_name: des_db_octopus
+    database_user: des_us_octopus
+    database_password: 0c70pu5
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: 8253484121857910402c81a2581333728
