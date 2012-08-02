@@ -20,7 +20,12 @@ Parse the Squid access.log file and save to database.
 
 
 
-Instructions
-------------
+Installing
+----------
+
+* Install [Composer][1]
+* Run `php composer.phar update` to download all dependencies
 
 
+Links:
+[1][http://getcomposer.org/download/]
