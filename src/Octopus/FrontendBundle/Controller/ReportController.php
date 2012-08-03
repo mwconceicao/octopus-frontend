@@ -16,7 +16,6 @@ class ReportController extends Controller
 	 */
 	public function indexAction()
 	{
-		//return $this->render('OctopusFrontendBundle:Home:index.html.twig');
 		return array();
 	}
 	
@@ -24,17 +23,17 @@ class ReportController extends Controller
 	 * @Route("/two-dimensional", name="_report_2d")
 	 * @Template()
 	 */
-	public function TwoDimensionalAction()
+	public function twoDimensionalAction()
 	{
-		
+		return array();
 	}
 	
 	/**
 	 * @Route("/three-dimensional", name="_report_3d")
 	 * @Template()
 	 */
-	public function ThreeDimensionalAction()
+	public function threeDimensionalAction()
 	{
-		
+		return array();
 	}
 }
