@@ -6,30 +6,46 @@
         <title>Octopus - {% block title %}{% endblock %}</title>
         
         <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/bootstrap-responsive.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/frontend.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/bootstrap-responsive.min.css') }}" />
     </head>
     <body>
     
 		<div class="navbar navbar-fixed-top">
-	        <div class="navbar-inner">
+			<div class="navbar-inner">
 				<div class="container">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar">DWADAW</span>
 						<span class="icon-bar"></span>
-	            		<span class="icon-bar"></span>
-	            		<span class="icon-bar"></span>
-	          		</a>
-	          		<a class="brand" href="#">Octopus</a>
-	          		<div class="nav-collapse">
-		            	<ul class="nav">
-		            		<li><a href="{{ path('_welcome') }}/">Home</a></li>
-		            		<li><a href="{{ path('_report_2d') }}">Two dimensional report</a></li>
-		            		<li><a href="{{ path('_report_3d') }}">Three dimensional report</a></li>
-		            		<li><a href="{{ path('_about') }}">About</a></li>
-		            	</ul>
-	          		</div><!--/.nav-collapse -->
-	        	</div>
-	    	</div>
+						<span class="icon-bar"></span>
+					</a>
+					<a class="brand" href="#">Octopus</a>
+					{% if app.user %}
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li {% if app.request.attributes.get('_route') == '_welcome' %}class="active"{% endif %}><a href="{{ path('_welcome') }}/">Home</a></li>
+							<li {% if app.request.attributes.get('_route') == '_report_2d' %}class="active"{% endif %}><a href="{{ path('_report_2d') }}">Two dimensional report</a></li>
+							<li {% if app.request.attributes.get('_route') == '_report_3d' %}class="active"{% endif %}><a href="{{ path('_report_3d') }}">Three dimensional report</a></li>
+							<li {% if app.request.attributes.get('_route') == '_about' %}class="active"{% endif %}><a href="{{ path('_about') }}">About</a></li>
+							<li>&nbsp;&nbsp;&nbsp;</li>
+							<li>
+								<div class="btn-group">
+									<a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> {{ app.user.username }}</a>
+									<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										{% if is_granted('ROLE_ADMIN') %}
+										<li><a href=""><i class="icon-pencil"></i> Manage users</a></li>
+										<li class="divider"></li>
+										{% endif %}
+										<li><a href="{{ path('logout') }}"><i class="icon-off"></i> Logout</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div><!--/.nav-collapse -->
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	    
 	    <div id="content" class="container">
@@ -39,8 +55,8 @@
 	    <footer>
 	    	<div class="container">
 	    		<div class="row">
-	    			<div class="span9">
-	    				<address>Octopus version 0.1-alpha</address>
+	    			<div class="span100">
+	    				<address>Version 0.1-alpha</address>
 	    			</div>
 	    		</div>
 	    	</div>

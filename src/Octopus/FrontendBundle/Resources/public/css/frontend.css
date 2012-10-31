@@ -1,19 +1,22 @@
 @CHARSET "UTF-8";
 
-body
+html, body
 {
-    padding-top: 60px;
+    height: 100%;
+    margin: 0px;
+    padding-top: 30px;
 }
 
 footer
 {
-	height: 20px;
+	height: 40px;
 	position: relative;
 	clear: both;
-	padding: 10px 0px;
-	border-top: #022738 dashed 3px;
-	background-color: #11445c;
+	padding: 15px 5px 5px 5px;
+	border-top: white dashed 5px;
+	background-color: grey;
 	color: #fefefe;
+	text-align: right;
 }
 
 address {
