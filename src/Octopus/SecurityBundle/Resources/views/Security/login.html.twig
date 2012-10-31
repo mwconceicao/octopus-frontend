@@ -1,0 +1,42 @@
+{% extends 'OctopusFrontendBundle::layout.html.twig' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+{% if error %}
+	<div class="alert alert-error alert-block">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+    	<h4>Autentication error!</h4>
+    	{{ error.message }}
+    </div>
+{% endif %}
+
+<form action="{{ path('login_check') }}" method="post" class="form-horizontal">
+	<legend>Login information</legend>
+	
+	<div class="control-group">		    	
+    	<label for="username" class="control-label">Email:</label>
+    	<div class="controls">
+    		<input type="text" id="username" name="_username" value="{{ last_username }}" />
+    	</div>
+    </div>
+	<div class="control-group">
+    	<label for="password" class="control-label">Password:</label>
+    	<div class="controls">
+    		<input type="password" id="password" name="_password" />
+    	</div>
+    </div>
+    
+    <div class="control-group">
+    	<div class="controls">
+    		<button type="submit" class="btn">Login</button>
+    	</div>
+    </div>
+
+    {#
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+</form>
+
+{% endblock %}

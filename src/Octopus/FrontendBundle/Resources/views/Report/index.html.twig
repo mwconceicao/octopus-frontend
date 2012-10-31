@@ -1,0 +1,14 @@
+{% extends 'OctopusFrontendBundle::layout.html.twig' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+    <h1>Reports</h1>
+
+    <ul>
+    	<li><a href="{{ path('_report_2d') }}">Two-dimensional report</a></li>
+    	<li><a href="{{ path('_report_3d') }}">Three-dimensional report</a></li>
+    </ul>
+
+{% endblock %}
