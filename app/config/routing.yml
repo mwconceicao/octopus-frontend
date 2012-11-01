@@ -3,36 +3,34 @@
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
 
-# General
+##
+# General pages
 _welcome:
     pattern:  /
     defaults: { _controller: OctopusFrontendBundle:Home:index }
-
+#
 _about:
     pattern:  /about
     defaults: { _controller: OctopusFrontendBundle:Home:about }
+##
 
+##
+# Reports
 _report:
     resource: "@OctopusFrontendBundle/Controller/ReportController.php"
     type:     annotation
     prefix:   /report
+##
 
-# Login
+##
+# Authentication
 login:
     pattern:  /login
     defaults: { _controller: OctopusSecurityBundle:Security:login }
+#
 login_check:
     pattern:  /login_check
+#
 logout:
     pattern:  /logout
-
-
-# Demo
-#_demo_secured:
-#    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
-#    type:     annotation
-
-#_demo:
-#    resource: "@AcmeDemoBundle/Controller/DemoController.php"
-#    type:     annotation
-#    prefix:   /demo
+##

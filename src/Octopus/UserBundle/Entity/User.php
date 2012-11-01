@@ -16,32 +16,56 @@ class User implements UserInterface
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	private $id;
 	
 	/**
 	 * @ORM\Column(type="string", length=255, unique=true)
 	 */
-	protected $email;
+	private $email;
 	
 	/**
 	 * @ORM\Column(type="string", length=32)
 	 */
-	protected $password;
+	private $password;
 	
 	/**
 	 * @ORM\Column(name="given_name", type="string", length=255)
 	 */
-	protected $givenName;
+	private $givenName;
 	
 	/**
 	 * @ORM\Column(type="string", length=255)
 	 */
-	protected $surname;
+	private $surname;
 	
 	/**
 	 * @ORM\Column(name="is_admin", type="boolean")
 	 */
-	protected $isAdmin;
+	private $isAdmin;
+	
+	/**
+	 * Return the user Id
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+	/**
+	 * Return the user given name
+	 */
+	public function getGivenName()
+	{
+		return $this->givenName;
+	}
+	
+	/**
+	 * Return the user surname
+	 */
+	public function getSurname()
+	{
+		return $this->surname;
+	}
 	
 	/**
 	 * @inheritDoc
