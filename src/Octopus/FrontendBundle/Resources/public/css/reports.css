@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+
+.report-pivot
+{
+	font-style: italic;
+	color: white;
+	background-color: grey !important;
+}

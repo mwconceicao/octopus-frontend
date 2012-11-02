@@ -21,73 +21,85 @@ class ReportController extends Controller
 			'timestamp'		=> array(
 					'name' 			  => "Date & Time", 
 					'checked'		  => false,
-					'filter_selected' => false
+					'filter_selected' => false,
+					'pivot_selected'  => 0,
 					),
 			'responseTime'  => array(
 					'name'			  => "Response time",
+					'type'			  => "int",
 					'checked'		  => false,
 					'filter_selected' => false,
-					'type'			  => "int",
+					'pivot_selected'  => 0,
 					),
 			'clientAddress' => array(
 					'name' 			  => "Client address",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'result'		=> array(
 					'name'			  => "Proxy result status",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'statusCode'	=> array(
 					'name' 			  => "HTTP Status code",
+					'type'			  => "int",
 					'checked'		  => false,
 					'filter_selected' => false,
-					'type'			  => "int",
+					'pivot_selected'  => 0,
 					),
 			'size'			=> array(
 					'name' 			  => "Request size",
+					'type'			  => "int",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "int",
+					'pivot_selected'  => 0,
 					),
 			'requestMethod' => array(
 					'name' 			  => "Request HTTP Method",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'uri'			=> array(
 					'name'			  => "Web address",
+					'type'			  => "string",
 					'checked'		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'user'			=> array(
 					'name' 			  => "Authenticated user",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'peeringCode'	=> array(
 					'name'			  => "Peering code",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'peeringHost'	=> array(
 					'name'			  => "Peering host",
+					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			'contentType'	=> array(
 					'name'			  => "Content type",
+					'type'			  => "string",
 					'checked'		  => false,
 					'filter_selected' => false,
-					'type'			  => "string",
+					'pivot_selected'  => 0,
 					),
 			); 
 	
@@ -140,6 +152,11 @@ class ReportController extends Controller
 		$filterColumn 									 = $request->query->get('filter_column', 'uri');
 		$filterText	  									 = $request->query->get('filter_text');
 		$this->columns[$filterColumn]['filter_selected'] = true;
+		// ###
+		
+		// ###
+		$pivotOne = $request->query->get('pivot_one', 'clientAddress');
+		$pivotTwo = $request->query->get('pivot_two', 'statusCode');
 		// ###
 		
 		// Get data source
@@ -253,13 +270,13 @@ class ReportController extends Controller
 		
 		// ###
 		// Show Columns
-		$selectedColumns	= $request->query->get('show_columns', array('timestamp', 'clientAddress', 'uri'));
-		$sqlSelectedColumns = array();
+		$showColumns	 = $request->query->get('show_columns', array('timestamp', 'uri', 'contentType'));
+		$selectedColumns = array();
 		
-		foreach ($selectedColumns as $column)
+		foreach ($showColumns as $column)
 		{
 			$this->columns[$column]['checked'] = true;
-			$sqlSelectedColumns[] = "r." . $column;
+			$selectedColumns[] = "r." . $column;
 		}
 		// ##
 
@@ -268,6 +285,15 @@ class ReportController extends Controller
 		$filterColumn 									 = $request->query->get('filter_column', 'uri');
 		$filterText	  									 = $request->query->get('filter_text');
 		$this->columns[$filterColumn]['filter_selected'] = true;
+		// ###
+		
+		// ###
+		$pivotOne = $request->query->get('pivot_one', 'clientAddress');
+		$pivotTwo = $request->query->get('pivot_two', 'statusCode');
+		$this->columns[$pivotOne]['pivot_selected'] = 1;
+		$this->columns[$pivotTwo]['pivot_selected'] = 2;
+		
+		$sqlSelectedColumns = array_merge(array('r.' . $pivotOne, 'r.' . $pivotTwo), $selectedColumns);
 		// ###
 		
 		// Get data source
@@ -336,14 +362,31 @@ class ReportController extends Controller
 		}
 		
 		$query = $query
-			->orderBy('r.timestamp', 'ASC')
+			->orderBy('r.' . $pivotOne, 'DESC')
+			->addOrderBy('r.' . $pivotTwo, 'ASC')
+			->addOrderBy('r.timestamp','ASC')
 			->setFirstResult($pagination['first_result'])
 			->setMaxResults(self::RESULTS_PER_PAGE)
 			->getQuery();
 		$result = $query->getResult();
 		// ###
 		
-//  		echo "<pre>"; var_dump($pagination); echo "</pre>"; //die(); //DEBUG
+		$controlPivotOne = array();
+		$controlPivotTwo = array();
+		foreach ($result as $key => $req)
+		{
+			if (!isset($controlPivotOne[$req[$pivotOne]]['count']))
+				$controlPivotOne[$req[$pivotOne]]['count'] = 1;
+			else
+				$controlPivotOne[$req[$pivotOne]]['count']++;
+			
+			if (!isset($controlPivotTwo[$req[$pivotTwo]]['count']))
+				$controlPivotTwo[$req[$pivotTwo]]['count'] = 1;
+			else
+				$controlPivotTwo[$req[$pivotTwo]]['count']++;
+		}
+		
+ 		//echo "<pre>"; var_dump($controlPivotTwo); echo "</pre>"; //die(); //DEBUG
 		
 		return array(
 				'requests'					=> $result,
@@ -352,6 +395,10 @@ class ReportController extends Controller
 				'form_timestamp_range_from' => $timestampRangeFrom,
 				'form_timestamp_range_to'	=> $timestampRangeTo,
 				'form_filter_text'			=> $filterText,
+				'form_pivot_one'			=> $pivotOne,
+				'form_pivot_two'			=> $pivotTwo,
+				'control_pivot_one'			=> $controlPivotOne,
+				'control_pivot_two'			=> $controlPivotTwo,
 				'pagination'				=> $pagination
 				);
 	}

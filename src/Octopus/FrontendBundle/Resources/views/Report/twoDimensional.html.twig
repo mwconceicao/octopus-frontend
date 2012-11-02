@@ -71,7 +71,7 @@
 	{% set paramsPreviousPage = path(app.request.attributes.get('_route'), params|merge({'page': pagination.page_previous})) %}
 	{% set paramsNextPage = path(app.request.attributes.get('_route'), params|merge({'page': pagination.page_next})) %}
 	
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed table-hover">
     <legend id="results">Result <small>showing result from {{ pagination.first_result+1 }} to {{ pagination.first_result+request_count }} of {{ pagination.total }} ({{ pagination.results_per_page }} results per page)</small></legend>
     	<ul class="pager">
     		<li class="previous{% if pagination.actual_page == 1 %} disabled{% endif %}">

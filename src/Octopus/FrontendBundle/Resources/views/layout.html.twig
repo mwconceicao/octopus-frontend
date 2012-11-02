@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/frontend.css') }}" />
         <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/bootstrap-responsive.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/octopusfrontend/css/reports.css') }}" />
     </head>
     <body>
     
@@ -23,7 +24,7 @@
 					{% if app.user %}
 					<div class="nav-collapse">
 						<ul class="nav">
-							<li {% if app.request.attributes.get('_route') == '_welcome' %}class="active"{% endif %}><a href="{{ path('_welcome') }}/">Home</a></li>
+							<li {% if app.request.attributes.get('_route') == '_welcome' %}class="active"{% endif %}><a href="{{ path('_welcome') }}">Home</a></li>
 							<li {% if app.request.attributes.get('_route') == '_report_2d' %}class="active"{% endif %}><a href="{{ path('_report_2d') }}">Two dimensional report</a></li>
 							<li {% if app.request.attributes.get('_route') == '_report_3d' %}class="active"{% endif %}><a href="{{ path('_report_3d') }}">Three dimensional report</a></li>
 							<li {% if app.request.attributes.get('_route') == '_about' %}class="active"{% endif %}><a href="{{ path('_about') }}">About</a></li>
