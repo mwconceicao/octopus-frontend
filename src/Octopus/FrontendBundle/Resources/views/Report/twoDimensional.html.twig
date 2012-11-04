@@ -60,6 +60,23 @@
 	    			</label>
 	    		</div>
 	    		<div class="span2">
+					<legend>Order by</legend>
+					<label for="order_by_column">Column to order:
+						<select class="span10" id="order_by_column" name="order_by_column">
+		    				{% for key, column in columns %}
+	    					<option value="{{ key }}" {% if column.order_by %}selected="selected"{% endif %}>{{ column.name }}</option>
+		    				{% endfor %}
+		    			</select>
+	    			</label>
+	    			<br />
+	    			<label for="order_by_type">Type:
+	    				<select class="span7" id="order_by_type" name="order_by_type">
+	    					<option value="ASC" {% if form_order_by_type == "ASC" %}selected="selected"{% endif %}>ASC</option>
+	    					<option value="DESC" {% if form_order_by_type == "DESC" %}selected="selected"{% endif %}>DESC</option>
+	    				</select>
+	    			</label>
+	    		</div>
+	    		<div class="span2">
 	    			<legend>Actions</legend>
 	    			<input type="submit" value="Apply filter" class="btn" />
 	    		</div>

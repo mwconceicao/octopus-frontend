@@ -22,6 +22,7 @@ class ReportController extends Controller
 					'name' 			  => "Date & Time", 
 					'checked'		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'responseTime'  => array(
@@ -29,6 +30,7 @@ class ReportController extends Controller
 					'type'			  => "int",
 					'checked'		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'clientAddress' => array(
@@ -36,6 +38,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'result'		=> array(
@@ -43,6 +46,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'statusCode'	=> array(
@@ -50,6 +54,7 @@ class ReportController extends Controller
 					'type'			  => "int",
 					'checked'		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'size'			=> array(
@@ -57,6 +62,7 @@ class ReportController extends Controller
 					'type'			  => "int",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'requestMethod' => array(
@@ -64,6 +70,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'uri'			=> array(
@@ -71,6 +78,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked'		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'user'			=> array(
@@ -78,6 +86,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'peeringCode'	=> array(
@@ -85,6 +94,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'peeringHost'	=> array(
@@ -92,6 +102,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked' 		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			'contentType'	=> array(
@@ -99,6 +110,7 @@ class ReportController extends Controller
 					'type'			  => "string",
 					'checked'		  => false,
 					'filter_selected' => false,
+					'order_by'		  => false,
 					'pivot_selected'  => 0,
 					),
 			); 
@@ -155,8 +167,10 @@ class ReportController extends Controller
 		// ###
 		
 		// ###
-		$pivotOne = $request->query->get('pivot_one', 'clientAddress');
-		$pivotTwo = $request->query->get('pivot_two', 'statusCode');
+		// Order by
+		$orderByColumn	= $request->query->get('order_by_column', 'timestamp');
+		$orderByType	= $request->query->get('order_by_type',   'ASC');
+		$this->columns[$orderByColumn]['order_by'] = true;
 		// ###
 		
 		// Get data source
@@ -225,7 +239,7 @@ class ReportController extends Controller
 		}
 		
 		$query = $query
-			->orderBy('r.timestamp', 'ASC')
+			->orderBy('r.'.$orderByColumn, $orderByType)
 			->setFirstResult($pagination['first_result'])
 			->setMaxResults(self::RESULTS_PER_PAGE)
 			->getQuery();
@@ -241,6 +255,8 @@ class ReportController extends Controller
 				'form_timestamp_range_from' => $timestampRangeFrom,
 				'form_timestamp_range_to'	=> $timestampRangeTo,
 				'form_filter_text'			=> $filterText,
+				'form_order_by_column'		=> $orderByColumn,
+				'form_order_by_type'		=> $orderByType,
 				'pagination'				=> $pagination
 				);
 	}
@@ -288,12 +304,17 @@ class ReportController extends Controller
 		// ###
 		
 		// ###
+		// Pivot One & Two
 		$pivotOne = $request->query->get('pivot_one', 'clientAddress');
 		$pivotTwo = $request->query->get('pivot_two', 'statusCode');
+		
 		$this->columns[$pivotOne]['pivot_selected'] = 1;
 		$this->columns[$pivotTwo]['pivot_selected'] = 2;
 		
 		$sqlSelectedColumns = array_merge(array('r.' . $pivotOne, 'r.' . $pivotTwo), $selectedColumns);
+		
+		$pivotOneOrder = $request->query->get('pivot_one_order', 'ASC');
+		$pivotTwoOrder = $request->query->get('pivot_two_order', 'DESC');
 		// ###
 		
 		// Get data source
@@ -362,8 +383,8 @@ class ReportController extends Controller
 		}
 		
 		$query = $query
-			->orderBy('r.' . $pivotOne, 'DESC')
-			->addOrderBy('r.' . $pivotTwo, 'ASC')
+			->orderBy('r.' . $pivotOne, $pivotOneOrder)
+			->addOrderBy('r.' . $pivotTwo, $pivotTwoOrder)
 			->addOrderBy('r.timestamp','ASC')
 			->setFirstResult($pagination['first_result'])
 			->setMaxResults(self::RESULTS_PER_PAGE)
@@ -397,6 +418,8 @@ class ReportController extends Controller
 				'form_filter_text'			=> $filterText,
 				'form_pivot_one'			=> $pivotOne,
 				'form_pivot_two'			=> $pivotTwo,
+				'form_pivot_one_order'		=> $pivotOneOrder,
+				'form_pivot_two_order'		=> $pivotTwoOrder,
 				'control_pivot_one'			=> $controlPivotOne,
 				'control_pivot_two'			=> $controlPivotTwo,
 				'pagination'				=> $pagination

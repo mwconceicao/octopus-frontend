@@ -70,6 +70,12 @@
 		    				{% endfor %}
 		    			</select>
 	    			</label>
+	    			<label for="pivot_one_order">Order:
+	    				<select class="span6" id="pivot_one_order" name="pivot_one_order">
+	    					<option value="ASC" {% if form_pivot_one_order == "ASC" %}selected="selected"{% endif %}>ASC</option>
+	    					<option value="DESC" {% if form_pivot_one_order == "DESC" %}selected="selected"{% endif %}>DESC</option>
+	    				</select>
+	    			</label>
 	    			<br />
 	    			<label for="pivot_two">Pivot two:
 	    				<select class="span10" id="pivot_two" name="pivot_two">
@@ -80,7 +86,13 @@
 		    				{% endfor %}
 		    			</select>
 	    			</label>
-	    		</div>	    		
+	    			<label for="pivot_two_order">Order:
+	    				<select class="span6" id="pivot_two_order" name="pivot_two_order">
+	    					<option value="ASC" {% if form_pivot_two_order == "ASC" %}selected="selected"{% endif %}>ASC</option>
+	    					<option value="DESC" {% if form_pivot_two_order == "DESC" %}selected="selected"{% endif %}>DESC</option>
+	    				</select>
+	    			</label>
+	    		</div>
 	    		<div class="span2">
 	    			<legend>Actions</legend>
 	    			<input type="submit" value="Generate report" class="btn" />
