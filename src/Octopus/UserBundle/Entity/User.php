@@ -60,11 +60,29 @@ class User implements UserInterface
 	}
 	
 	/**
+	 * Set the given name
+	 * @param string $givenName
+	 */
+	public function setGivenName($givenName)
+	{
+		$this->givenName = $givenName;
+	}
+	
+	/**
 	 * Return the user surname
 	 */
 	public function getSurname()
 	{
 		return $this->surname;
+	}
+	
+	/**
+	 * Set the surname
+	 * @param unknown_type $surname
+	 */
+	public function setSurname($surname)
+	{
+		$this->surname = $surname;
 	}
 	
 	/**
@@ -76,11 +94,38 @@ class User implements UserInterface
 	}
 	
 	/**
+	 * Set the username
+	 * @param string $username
+	 */
+	public function setUsername($username)
+	{
+		$this->email = $username;
+	}
+	
+	/**
 	 * @inheritDoc
 	 */
 	public function getPassword()
 	{
 		return $this->password;
+	}
+	
+	/**
+	 * Set the password
+	 * @param string $password
+	 */
+	public function setPassword($password)
+	{
+		$this->password = md5($password);
+	}
+	
+	/**
+	 * Set admin flag
+	 * @param unknown_type $isAdmin
+	 */
+	public function setIsAdmin($isAdmin)
+	{
+		$this->isAdmin = $isAdmin;
 	}
 	
 	/**

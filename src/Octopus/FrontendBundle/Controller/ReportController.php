@@ -149,7 +149,10 @@ class ReportController extends Controller
 		
 		// ###
 		// Show Columns
-		$selectedColumns	= $request->query->get('show_columns', array('timestamp', 'clientAddress', 'uri'));
+		$selectedColumns = $request->query->get('show_columns', array(
+																	'timestamp',
+										 							'clientAddress',
+																	'uri'));
 		$sqlSelectedColumns = array();
 		
 		foreach ($selectedColumns as $column)
@@ -161,8 +164,9 @@ class ReportController extends Controller
 
 		// ###
 		// Column filter
-		$filterColumn 									 = $request->query->get('filter_column', 'uri');
-		$filterText	  									 = $request->query->get('filter_text');
+		$filterColumn	= $request->query->get('filter_column', 'uri');
+		$filterText		= $request->query->get('filter_text');
+		
 		$this->columns[$filterColumn]['filter_selected'] = true;
 		// ###
 		
@@ -174,7 +178,9 @@ class ReportController extends Controller
 		// ###
 		
 		// Get data source
-		$repository = $this->getDoctrine()->getRepository('Octopus\FrontendBundle\Entity\SquidAccessLogRequest');
+		$repository = $this
+				->getDoctrine()
+				->getRepository('Octopus\FrontendBundle\Entity\SquidAccessLogRequest');
 		
 		// ###
 		// Get total results
@@ -222,16 +228,12 @@ class ReportController extends Controller
 			->setParameter('timestamp_range_from', $timestampRangeFrom)
 			->setParameter('timestamp_range_to',   $timestampRangeTo);
 		
-		if (!empty($filterText))
-		{
-			if ($this->columns[$filterColumn]['type'] == 'string')
-			{
+		if (!empty($filterText)) {
+			if ($this->columns[$filterColumn]['type'] == 'string') {
 				$query = $query
 					->andWhere('LOWER(r.'.$filterColumn.') LIKE :filter_text')
 					->setParameter('filter_text', '%'.strtolower($filterText).'%');
-			}
-			elseif ($this->columns[$filterColumn]['type'] == 'int')
-			{
+			} elseif ($this->columns[$filterColumn]['type'] == 'int') {
 				$query = $query
 				->andWhere('r.'.$filterColumn.' = :filter_text')
 				->setParameter('filter_text', (int)$filterText);
@@ -243,10 +245,9 @@ class ReportController extends Controller
 			->setFirstResult($pagination['first_result'])
 			->setMaxResults(self::RESULTS_PER_PAGE)
 			->getQuery();
+		
 		$result = $query->getResult();
 		// ###
-		
-//  		echo "<pre>"; var_dump($pagination); echo "</pre>"; //die(); //DEBUG
 		
 		return array(
 				'requests'					=> $result,

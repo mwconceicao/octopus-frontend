@@ -140,13 +140,23 @@
 					{% if pivotOneLastValue != value %}
 						{% set pivotOneLastValue = value %}
 						<td rowspan="{{ control_pivot_one[value].count }}">
-						{{ value }}
+							<a href="{{ path(app.request.attributes.get('_route'),
+											 app.request.attributes.get('_route_params')
+											 |merge(app.request.query.all())
+											 |merge({'filter_column':key, 'filter_text':value})) }}">
+								 {{ value }}
+							 </a>
 					{% endif %}
 				{% elseif key == form_pivot_two %}
 					{% if pivotTwoLastValue != value %}
 						{% set pivotTwoLastValue = value %}
 						<td rowspan="{{ control_pivot_two[value].count }}">
-						{{ value }}
+							<a href="{{ path(app.request.attributes.get('_route'), 
+										app.request.attributes.get('_route_params')
+										|merge(app.request.query.all())
+										|merge({'filter_column':key, 'filter_text':value})) }}">
+								{{ value }}
+							</a>
 					{% endif %}
 					
 				{% else %}

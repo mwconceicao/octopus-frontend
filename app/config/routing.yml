@@ -23,6 +23,19 @@ _report:
 ##
 
 ##
+# User manage
+_myaccount:
+    resource: "@OctopusUserBundle/Controller/MyAccountController.php"
+    type:     annotation
+    prefix:   /myaccount
+#
+_admin_manage_users:
+    resource: "@OctopusUserBundle/Controller/AdminManageUsersController.php"
+    type:     annotation
+    prefix:   /admin/manage-users
+##
+
+##
 # Authentication
 login:
     pattern:  /login

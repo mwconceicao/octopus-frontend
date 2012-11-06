@@ -1,0 +1,56 @@
+{% extends 'OctopusFrontendBundle::layout.html.twig' %}
+
+{% block title %}Create a new user{% endblock %}
+
+{% block content %}
+
+	<form action="{{ path('_admin_manage_users_create_submit') }}" method="post" class="form-horizontal">
+	<legend>Create a new user</legend>
+	
+	<div class="control-group">		    	
+    	<label for="given_name" class="control-label">Given name:</label>
+    	<div class="controls">
+    		<input type="text" id="given_name" name="given_name" />
+    	</div>
+    </div>
+    
+    <div class="control-group">		    	
+    	<label for="surname" class="control-label">Surname:</label>
+    	<div class="controls">
+    		<input type="text" id="surname" name="surname" />
+    	</div>
+    </div>
+    
+    <div class="control-group">		    	
+    	<label for="email" class="control-label">Email:</label>
+    	<div class="controls">
+    		<input type="text" id="email" name="email" />
+    	</div>
+    </div>
+    
+	<div class="control-group">
+    	<label for="password" class="control-label">Password:</label>
+    	<div class="controls">
+    		<input type="password" id="password" name="password" />
+    	</div>
+    </div>
+    
+    <div class="control-group">
+    	<label for="is_admin" class="control-label">Administrator:</label>
+    	<div class="controls">
+			<label class="checkbox">
+				<input type="checkbox" id="is_admin" name="is_admin" />
+			</label>
+    	</div>
+    </div>
+    
+    <div class="control-group">
+    	<div class="controls">
+    		<button type="submit" class="btn">Create user</button>
+    	</div>
+    </div>
+
+    <input type="hidden" name="_target_path" value="/admin/manage-users" />
+</form>
+
+{% endblock %}
