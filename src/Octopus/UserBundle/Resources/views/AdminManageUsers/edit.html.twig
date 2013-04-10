@@ -1,0 +1,58 @@
+{% extends 'OctopusFrontendBundle::layout.html.twig' %}
+
+{% block title %}Edit user{% endblock %}
+
+{% block content %}
+
+	<form action="{{ path('_admin_manage_users_edit_submit') }}" method="post" class="form-horizontal">
+	<legend>Edit user information</legend>
+	
+	<div class="control-group">		    	
+    	<label for="given_name" class="control-label">Given name:</label>
+    	<div class="controls">
+    		<input type="text" id="given_name" name="given_name" value="{{ user.givenName }}" />
+    	</div>
+    </div>
+    
+    <div class="control-group">		    	
+    	<label for="surname" class="control-label">Surname:</label>
+    	<div class="controls">
+    		<input type="text" id="surname" name="surname" value="{{ user.surname }}" />
+    	</div>
+    </div>
+    
+    <div class="control-group">		    	
+    	<label for="email" class="control-label">Email:</label>
+    	<div class="controls">
+    		<input type="text" id="email" name="email" value="{{ user.username }}" />
+    	</div>
+    </div>
+    
+	<div class="control-group">
+    	<label for="password" class="control-label">New Password:</label>
+    	<div class="controls">
+    		<input type="password" id="password" name="password" />
+    		<i>(leave blank to not modify)</i>
+    	</div>
+    </div>
+    
+    <div class="control-group">
+    	<label for="is_admin" class="control-label">Administrator:</label>
+    	<div class="controls">
+			<label class="checkbox">
+				<input type="checkbox" id="is_admin" name="is_admin" {% if user.roles.0 == 'ROLE_ADMIN' %}checked="checked"{% endif %} />
+			</label>
+    	</div>
+    </div>
+    
+    <div class="control-group">
+    	<div class="controls">
+    		<button type="submit" class="btn">Update user</button>
+    	</div>
+    </div>
+
+    <input type="hidden" name="user_id" value="{{ user.id }}" />
+    <input type="hidden" name="_target_path" value="/admin/manage-users" />
+</form>
+
+{% endblock %}
