@@ -12,6 +12,14 @@ _welcome:
 _about:
     pattern:  /about
     defaults: { _controller: OctopusFrontendBundle:Home:about }
+#
+_save_report_query:
+    pattern:  /saveReportQuery
+    defaults: { _controller: OctopusFrontendBundle:Home:saveReportQuery }
+#
+_remove_report_query:
+    pattern:  /removeReportQuery
+    defaults: { _controller: OctopusFrontendBundle:Home:removeReportQuery }
 ##
 
 ##

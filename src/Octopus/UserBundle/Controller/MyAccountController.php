@@ -37,8 +37,28 @@ class MyAccountController extends Controller
 	 * @Route("/change-password-submit", name="_myaccount_changepassword_submit")
 	 * 
 	 */
-	public function changePasswordSubmitAction()
+	public function changePasswordSubmitAction(Request $request)
 	{
-		return array();
+		$userId = $this->get('security.context')->getToken()->getUser()->getId();
+		
+		$newPassword         = $request->request->get('new_password');
+		$newPasswordConfirm  = $request->request->get('new_password_confirm');
+		
+		if ($newPassword != $newPasswordConfirm) {
+			//return $this->redirect($this->generateUrl('_myaccount_changepassword'));
+			return $this->forward('OctopusUserBundle:MyAccount:changePassword', array('msg'=>'Password doesn\'t match.'));
+		}
+		
+		$doctrine = $this->getDoctrine();
+		
+		$em = $doctrine->getEntityManager();
+		$repository = $doctrine->getRepository('Octopus\UserBundle\Entity\User');
+		
+		$user = $repository->find($userId);
+		$user->setPassword($newPassword);
+		
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('_welcome'));
 	}
 }

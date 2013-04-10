@@ -79,6 +79,8 @@
 	    		<div class="span2">
 	    			<legend>Actions</legend>
 	    			<input type="submit" value="Apply filter" class="btn" />
+	    			<br /><br />
+	    			<input type="button" value="Save current query" class="btn" onclick="window.location='{{ path('_save_report_query', {'query':app.request.pathInfo ~ '?' ~ app.request.queryString}) }}&name='+prompt('Digite o nome da consulta:');" />
 	    		</div>
     		</div>
     	</div>

@@ -48,9 +48,9 @@
 				{% endif %}
 			</td>
 			<td>
-				<a href="">Edit</a>
+				<a href="{{ path('_admin_manage_users_edit', {'user_id': user.id}) }}">Edit</a>
 				/
-				<a href="">Remove</a>
+				<a href="{{ path('_admin_manage_users_delete', {'user_id': user.id}) }}">Remove</a>
 			</td>
 		</tr>
 		{% endfor %}

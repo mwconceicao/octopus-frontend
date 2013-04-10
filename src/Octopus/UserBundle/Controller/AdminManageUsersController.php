@@ -63,6 +63,82 @@ class AdminManageUsersController extends Controller
 		$em->persist($user);
 		$em->flush();
 		
-		return $this->forward('OctopusUserBundle:AdminManageUsers:index');
+		return $this->redirect($this->generateUrl('_admin_manage_users_index'));
+	}
+	
+	/**
+	 * @Route("/delete", name="_admin_manage_users_delete")
+	 * @Template()
+	 */
+	public function deleteAction(Request $request)
+	{
+		$userId = $request->query->get('user_id');
+		
+		$doctrine = $this->getDoctrine();
+		
+		$em = $doctrine->getEntityManager();		
+		$repository = $doctrine->getRepository('Octopus\UserBundle\Entity\User');
+		
+		$user = $repository->find($userId);
+		
+		$em->remove($user);
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('_admin_manage_users_index'));
+	}
+	
+	/**
+	 * @Route("/edit", name="_admin_manage_users_edit")
+	 * @Template()
+	 */
+	public function editAction(Request $request)
+	{
+		$userId = $request->query->get('user_id');
+		
+		$repository = $this->getDoctrine()->getRepository('Octopus\UserBundle\Entity\User');
+		
+		$user = $repository->find($userId);
+		
+		return array('user' => $user);
+	}
+	
+	/**
+	 * @Route("/edit-submit", name="_admin_manage_users_edit_submit")
+	 * @Template()
+	 */
+	public function editSubmitAction(Request $request)
+	{
+		$userId    = $request->request->get('user_id'); 
+		$givenName = $request->request->get('given_name');
+		$surname   = $request->request->get('surname');
+		$email     = $request->request->get('email');
+		$password  = $request->request->get('password');
+		$isAdmin   = $request->request->get('is_admin');
+		
+		if ($isAdmin == "on") {
+			$isAdmin = true;
+		} else {
+			$isAdmin = false;
+		}
+		
+		$doctrine = $this->getDoctrine();
+		
+		$em = $doctrine->getEntityManager();
+		$repository = $doctrine->getRepository('Octopus\UserBundle\Entity\User');
+		
+		$user = $repository->find($userId);
+		
+		$user->setGivenName($givenName);
+		$user->setSurname($surname);
+		$user->setUsername($email);
+		$user->setIsAdmin($isAdmin);
+		
+		if (!empty($password)) {
+			$user->setPassword($password);
+		}
+		
+		$em->flush();
+		
+		return $this->redirect($this->generateUrl('_admin_manage_users_index'));
 	}
 }

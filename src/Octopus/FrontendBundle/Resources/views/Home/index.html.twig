@@ -11,6 +11,23 @@
 	    
 	    <p>Now you can monitor your Squid access logs.</p>
     	<p>Please select an option at the top menu.</p>
+    	
 	</div>
+		
+	<h3>Saved queries:</h3>
+	
+	<table class="table table-striped table-hover span5">
+		<tr>
+			<th>Name</th>
+			<th>Actions</th>
+		</tr>
+		
+		{% for savedQuery in savedQueries %}
+		<tr>
+			<td><a href="{% if app.request.requestUri == '/app_dev.php/' %}/app_dev.php{% endif %}{{ savedQuery.query }}">{{ savedQuery.name }}</a></td>
+			<td><a href="{{ path('_remove_report_query', {'reportQueryId':savedQuery.id}) }}">Remove</a></td>
+		</tr>
+		{% endfor %}
+	</table>
 
 {% endblock %}

@@ -5,6 +5,8 @@ namespace Octopus\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Octopus\FrontendBundle\Entity\SquidAccessLogRequest
+ * 
  * @ORM\Entity
  * @ORM\Table(name="squid_access_log_request")
  */
@@ -68,7 +70,7 @@ class SquidAccessLogRequest
 	private $peeringCode;
 	
 	/**
-	 * @ORM\Column(name="peering_host", type="string", length=15)
+	 * @ORM\Column(name="peering_host", type="string", length=50)
 	 */
 	private $peeringHost;
 	
